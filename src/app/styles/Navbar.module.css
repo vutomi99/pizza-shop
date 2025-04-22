@@ -9,6 +9,21 @@
     top: 0;
     z-index: 999;
   }
+
+  .listItem {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .listItem:hover {
+    color: #d84315;
+  }
+  
+  
   
   .item {
     flex: 1;
