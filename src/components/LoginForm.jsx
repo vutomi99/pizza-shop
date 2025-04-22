@@ -1,9 +1,117 @@
 "use client";
+
+import {
+  Avatar,
+  Box,
+  Container,
+  FormControlLabel,
+  Paper,
+  TextField,
+  Typography,
+  Checkbox,
+  Button,
+  Grid,
+  Link,
+} from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import NextLink from "next/link";
+
 const LoginForm = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Login submitted");
+  };
+
   return (
-    <div>
-      <h1>Login Page</h1>
-    </div>
+    <Box
+      sx={{
+        backgroundImage: "url('/image/pizza.jpeg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        px: 2,
+      }}
+    >
+      <Container maxWidth="xs">
+        <Paper
+          elevation={6}
+          sx={{
+            backdropFilter: "blur(10px)",
+            backgroundColor: "rgba(255, 255, 255, 0.1)",
+            borderRadius: 4,
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            color: "#fff",
+            p: 4,
+            boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
+          }}
+        >
+          <Avatar
+            sx={{
+              mx: "auto",
+              bgcolor: "#d84315", 
+              mb: 2,
+            }}
+          >
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5" align="center" gutterBottom>
+            Sign In
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate>
+            <TextField
+              label="Email"
+              type="email"
+              required
+              fullWidth
+              margin="normal"
+              variant="filled"
+              InputProps={{
+                style: { backgroundColor: "rgba(255,255,255,0.9)" },
+              }}
+            />
+            <TextField
+              label="Password"
+              type="password"
+              required
+              fullWidth
+              margin="normal"
+              variant="filled"
+              InputProps={{
+                style: { backgroundColor: "rgba(255,255,255,0.9)" },
+              }}
+            />
+            <FormControlLabel
+              control={<Checkbox color="primary" />}
+              label="Remember me"
+              sx={{ color: "#fff", mt: 1 }}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 2, backgroundColor: "#d84315", ":hover": { backgroundColor: "#bf360c" } }}
+            >
+              Sign In
+            </Button>
+            <Grid container justifyContent="space-between" sx={{ mt: 2 }}>
+              <Grid item>
+                <Link component={NextLink} href="/forgot" underline="hover" sx={{ color: "#fff" }}>
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link component={NextLink} href="/auth/register" underline="hover" sx={{ color: "#fff" }}>
+                  Sign Up
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Paper>
+      </Container>
+    </Box>
   );
 };
 
