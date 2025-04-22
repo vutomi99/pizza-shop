@@ -1,6 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "../app/styles/Navbar.module.css";
-
 
 const Navbar = () => {
   return (
@@ -20,13 +20,15 @@ const Navbar = () => {
           <li className={styles.listItem}>Products</li>
           <li className={styles.listItem}>Menu</li>
           <Image src="/image/logo.png" alt="" width={160} height={69} />
-          <li className={styles.listItem}>Login</li>
+          <Link href="/auth/login">
+            <li className={styles.listItem}>Login</li>
+          </Link>
           <li className={styles.listItem}>Contact</li>
         </ul>
       </div>
       <div className={styles.item}>
         <div className={styles.cart}>
-          <Image src="/image/cart.png" alt="" width={30} height= {30} />
+          <Image src="/image/cart.png" alt="" width={30} height={30} />
           <div className={styles.counter}>2</div>
         </div>
       </div>
