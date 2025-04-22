@@ -1,58 +1,74 @@
 .container {
-    height: calc(100vh - 100px);
-    background-color: #222;
-    display: flex;
+  height: auto;
+  background-color: #222;
+  display: flex;
+  padding: 40px 20px;
+  gap: 30px;
+  align-items: flex-start;
+}
+.imageContainer {
+  flex: 1;
+  position: relative;
+  min-height: 300px;
+}
+
+.item {
+  flex: 1;
+  position: relative;
+  display: flex;
+}
+
+.item:last-child {
+  flex: 2;
+  padding: 20px;
+  justify-content: space-between;
+}
+
+.card {
+  flex: 1;
+  padding: 0 10px;
+}
+
+.title {
+  font-size: 16px;
+  color: #b7903c;
+  margin-bottom: 10px;
+}
+
+.text {
+  color: lightgray;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.motto {
+  color: rgb(211, 211, 211);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+    text-align: center;
+    padding: 30px 15px;
   }
-  
-  .item {
-    flex: 1;
-    position: relative;
-    display: flex;
+
+  .item:first-child {
+    display: none;
   }
-  
-  .item:last-child {
-    flex: 2;
-    padding: 50px;
-    justify-content: space-between;
-  }
-  
+
   .card {
-    flex: 1;
-    padding: 0 20px;
+    padding: 15px 0;
   }
-  
+
   .title {
-    font-size: 18px;
-    color: #b7903c;
+    font-size: 20px;
   }
-  
+
   .text {
-    color: lightgray;
+    font-size: 16px;
   }
-  
-  .motto {
-    color: rgb(211, 211, 211);
-  }
-  
-  @media screen and (max-width: 480px) {
-    .container {
-      height: auto;
-      text-align: center;
-    }
-    .item:first-child {
-      display: none;
-    }
-  
-    .item {
-      flex-direction: column;
-    }
-  
-    .title {
-      font-size: 30px;
-    }
-  
-    .text {
-      font-size: 20px;
-    }
-  }
-  
+}
