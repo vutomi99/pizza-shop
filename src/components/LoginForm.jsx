@@ -1,4 +1,5 @@
 "use client";
+import * as Yup from "yup";
 
 import {
   Avatar,
@@ -15,12 +16,31 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import NextLink from "next/link";
+import { useFormik } from "formik";
+import { useEffect } from "react";
 
-const LoginForm = () => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Login submitted");
-  };
+const LoginForm = ({ handleOnSubmit = () => {}, isLoading = false }) => {
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object().shape({
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
+      password: Yup.string().required("Password is required"),
+    }),
+
+    onSubmit: (values) => {
+      handleOnSubmit(values, formik);
+    },
+  });
+
+  useEffect(() => {
+    console.log("isLoading", isLoading);
+    
+  },[isLoading])
 
   return (
     <Box
@@ -51,7 +71,7 @@ const LoginForm = () => {
           <Avatar
             sx={{
               mx: "auto",
-              bgcolor: "#d84315", 
+              bgcolor: "#d84315",
               mb: 2,
             }}
           >
@@ -60,27 +80,31 @@ const LoginForm = () => {
           <Typography component="h1" variant="h5" align="center" gutterBottom>
             Sign In
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate>
+          <Box component="form" onSubmit={formik.handleSubmit} noValidate>
             <TextField
               label="Email"
+              name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
               type="email"
-              required
               fullWidth
               margin="normal"
               variant="filled"
               InputProps={{
-                style: { backgroundColor: "rgba(255,255,255,0.9)" },
+                style: { backgroundColor: "rgba(210, 228, 198, 0.38)" },
               }}
             />
             <TextField
               label="Password"
+              name="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
               type="password"
-              required
               fullWidth
               margin="normal"
               variant="filled"
               InputProps={{
-                style: { backgroundColor: "rgba(255,255,255,0.9)" },
+                style: { backgroundColor: "rgba(210, 228, 198, 0.38)" },
               }}
             />
             <FormControlLabel
@@ -90,20 +114,35 @@ const LoginForm = () => {
             />
             <Button
               type="submit"
+              loading={isLoading}
               fullWidth
               variant="contained"
-              sx={{ mt: 2, backgroundColor: "#d84315", ":hover": { backgroundColor: "#bf360c" } }}
+              sx={{
+                mt: 2,
+                backgroundColor: "#d84315",
+                ":hover": { backgroundColor: "#bf360c" },
+              }}
             >
               Sign In
             </Button>
             <Grid container justifyContent="space-between" sx={{ mt: 2 }}>
               <Grid item>
-                <Link component={NextLink} href="/forgot" underline="hover" sx={{ color: "#fff" }}>
+                <Link
+                  component={NextLink}
+                  href="/forgot"
+                  underline="hover"
+                  sx={{ color: "#fff" }}
+                >
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link component={NextLink} href="/auth/register" underline="hover" sx={{ color: "#fff" }}>
+                <Link
+                  component={NextLink}
+                  href="/auth/register"
+                  underline="hover"
+                  sx={{ color: "#fff" }}
+                >
                   Sign Up
                 </Link>
               </Grid>
