@@ -1,9 +1,7 @@
-
 "use client";
 
 import { apiInstance } from "@/instances";
 import { useMutation } from "@tanstack/react-query";
-
 
 //Create Pizza
 
@@ -42,10 +40,9 @@ const useUpdatePizzaHook = () => {
       try {
         const res = await apiInstance({
           method: "PUT",
-          url: `/api/pizzas/${pizzaData.id}`, 
+          url: `/api/pizzas/${pizzaData.id}`,
           data: pizzaData,
         });
-        
 
         console.log("Response", res);
 
@@ -58,10 +55,9 @@ const useUpdatePizzaHook = () => {
   });
 
   return mutation;
-}
+};
 
-
-//Delete 
+//Delete
 
 const useDeletePizzaHook = () => {
   const mutation = useMutation({
@@ -69,7 +65,7 @@ const useDeletePizzaHook = () => {
       try {
         const res = await apiInstance({
           method: "DELETE",
-           url: `/api/pizzas/${pizzaData.id}`
+          url: `/api/pizzas/${pizzaData.id}`,
         });
 
         return res?.data;
@@ -81,9 +77,6 @@ const useDeletePizzaHook = () => {
   });
 
   return mutation;
-}
-
-
+};
 
 export { useCreatePizzaHook, useDeletePizzaHook, useUpdatePizzaHook };
-

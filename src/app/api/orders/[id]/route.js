@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import prisma from "@/instances/prisma";
+import { prisma } from "@/instances/prisma";
 
 
 //view order 
