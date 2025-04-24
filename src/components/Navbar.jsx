@@ -34,13 +34,6 @@ const Navbar = () => {
             </li>
           </Link>
 
-          <Link href="/products" passHref>
-            <li className={styles.listItem}>
-              <LocalPizzaIcon style={{ marginRight: "5px" }} />
-              Products
-            </li>
-          </Link>
-
           <Link href="/menu" passHref>
             <li className={styles.listItem}>
               <RestaurantMenuIcon style={{ marginRight: "5px" }} />

@@ -28,15 +28,11 @@ const Product = () => {
         <div className={styles.sizes}>
           <div className={styles.size} onClick={() => setSize(0)}>
             <Image src="/image/size.png" layout="fill" alt="" />
-            <span className={styles.number}>Small</span>
+            <span className={styles.number}>Thick</span>
           </div>
           <div className={styles.size} onClick={() => setSize(1)}>
             <Image src="image/size.png" layout="fill" alt="" />
-            <span className={styles.number}>Medium</span>
-          </div>
-          <div className={styles.size} onClick={() => setSize(2)}>
-            <Image src="/image/size.png" layout="fill" alt="" />
-            <span className={styles.number}>Large</span>
+            <span className={styles.number}>Thin</span>
           </div>
         </div>
         <h3 className={styles.choose}>Choose additional ingredients</h3>
