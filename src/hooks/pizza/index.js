@@ -1,82 +1,66 @@
 "use client";
 
 import { apiInstance } from "@/instances";
-import { useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
-//Create Pizza
+// Get all pizzas
+const useGetPizzasHook = () => {
+  return useQuery({
+    queryKey: ["pizzas"],
+    queryFn: async () => {
+      const res = await apiInstance({
+        method: "GET",
+        url: "/pizzas", 
+      });
+      return res?.data;
+    },
+  });
+};
 
+//  Create Pizza
 const useCreatePizzaHook = () => {
-  const mutation = useMutation({
+  return useMutation({
     mutationFn: async (pizzaData = {}) => {
-      console.log("Pizza", pizzaData);
-
-      try {
-        const res = await apiInstance({
-          method: "POST",
-          url: "/pizzas",
-          data: pizzaData,
-        });
-
-        console.log("Response", res);
-
-        return res?.data;
-      } catch (error) {
-        console.error("Error Creating Pizza:", error);
-        throw error;
-      }
+      const res = await apiInstance({
+        method: "POST",
+        url: "/pizzas", 
+        data: pizzaData,
+      });
+      return res?.data;
     },
   });
-
-  return mutation;
 };
 
-//Update Pizza
-
+// Update Pizza
 const useUpdatePizzaHook = () => {
-  const mutation = useMutation({
+  return useMutation({
     mutationFn: async (pizzaData = {}) => {
-      console.log("Pizza", pizzaData);
-
-      try {
-        const res = await apiInstance({
-          method: "PUT",
-          url: `/api/pizzas/${pizzaData.id}`,
-          data: pizzaData,
-        });
-
-        console.log("Response", res);
-
-        return res?.data;
-      } catch (error) {
-        console.error("Error Updating Pizza:", error);
-        throw error;
-      }
+      const res = await apiInstance({
+        method: "PUT",
+        url: `/api/pizzas/${pizzaData.id}`,
+        data: pizzaData,
+      });
+      return res?.data;
     },
   });
-
-  return mutation;
 };
 
-//Delete
-
+// Delete Pizza
 const useDeletePizzaHook = () => {
-  const mutation = useMutation({
+  return useMutation({
     mutationFn: async (pizzaId) => {
-      try {
-        const res = await apiInstance({
-          method: "DELETE",
-          url: `/api/pizzas/${pizzaData.id}`,
-        });
-
-        return res?.data;
-      } catch (error) {
-        console.error("Error Deleting Pizza:", error);
-        throw error;
-      }
+      const res = await apiInstance({
+        method: "DELETE",
+        url: `/pizzas/${pizzaId}`, 
+      });
+      return res?.data;
     },
   });
-
-  return mutation;
 };
 
-export { useCreatePizzaHook, useDeletePizzaHook, useUpdatePizzaHook };
+export {
+  useGetPizzasHook,
+  useCreatePizzaHook,
+  useUpdatePizzaHook,
+  useDeletePizzaHook,
+};
