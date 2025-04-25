@@ -13,6 +13,18 @@
   color: inherit;
   display: block;
 }
+.cardLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.container {
+  display: block; 
+  text-decoration: none;
+  color: inherit;
+}
+
+
 
 
 .imageContainer {

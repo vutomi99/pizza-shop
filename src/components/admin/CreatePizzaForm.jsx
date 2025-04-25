@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {useCreatePizzaHook} from "@/hooks/pizza";
+import { useCreatePizzaHook } from "@/hooks/pizza";
+import { TextField, Button, Box } from "@mui/material";
 
 const CreatePizzaForm = () => {
   const [form, setForm] = useState({ name: "", description: "", price: "" });
@@ -16,7 +17,7 @@ const CreatePizzaForm = () => {
     try {
       await createPizza(form);
       alert("Pizza created!");
-      setForm({ name: "", description: "", price: "" }); 
+      setForm({ name: "", description: "", price: "" });
     } catch (error) {
       console.error("Error creating pizza", error);
       alert("Failed to create pizza. Please try again.");
@@ -24,33 +25,40 @@ const CreatePizzaForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{ display: "flex", flexDirection: "column", gap: 2, maxWidth: 400, margin: "auto" }}
+    >
+      <TextField
         name="name"
-        placeholder="Name"
+        label="Name"
         value={form.name}
         onChange={handleChange}
         required
+        fullWidth
       />
-      <input
+      <TextField
         name="description"
-        placeholder="Description"
+        label="Description"
         value={form.description}
         onChange={handleChange}
         required
+        fullWidth
       />
-      <input
+      <TextField
         name="price"
-        placeholder="Price"
+        label="Price"
         type="number"
         value={form.price}
         onChange={handleChange}
         required
+        fullWidth
       />
-      <button type="submit" disabled={isPending}>
+      <Button type="submit" variant="contained" color="primary" disabled={isPending}>
         {isPending ? "Creating..." : "Create Pizza"}
-      </button>
-    </form>
+      </Button>
+    </Box>
   );
 };
 

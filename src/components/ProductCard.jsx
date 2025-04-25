@@ -1,26 +1,23 @@
 import Image from "next/image";
+import Link from "next/link";
 import styles from "../app/styles/ProductCard.module.css";
 
-const ProductCard = () => {
+const ProductCard = ({ id, title, price, description }) => {
   return (
-    <div className={styles.container}>
-     <div className={styles.imageContainer}>
-        <Image
-            src="/image/pizza.jpeg"
-            alt="Pizza"
-            className={styles.image}
-            layout="fill"
-            objectFit="cover"
-        />
-        </div>
-
-      <h1 className={styles.title}>Margherita</h1>
-      <span className={styles.price}>R199.00</span>
-      <p className={styles.desc}>
-      A local favourite packed with bold flavour — loaded with creamy mozzarella, 
-      juicy chicken, and our signature BBQ sauce
-      </p>
-    </div>
+    <Link href={`/product/${id}`} className={styles.container}>
+      <div className={styles.imageContainer}>
+      <Image
+      src="/image/pizza.jpeg"
+      alt={`Image of ${title} pizza`}
+      className={styles.image}
+      layout="fill"
+      objectFit="cover"
+    />
+      </div>
+      <h1 className={styles.title}>{title}</h1>
+      <span className={styles.price}>R{price}</span>
+      <p className={styles.desc}>{description}</p>
+    </Link>
   );
 };
 
