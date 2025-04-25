@@ -1,24 +1,30 @@
-// components/admin/OrderRow.jsx
+import React from "react";
+import { TableRow, TableCell, Select, MenuItem, Button, Chip } from "@mui/material";
+
 export default function OrderRow({ order, index }) {
-    return (
-      <tr className="border-t hover:bg-gray-50">
-        <td className="p-3">{index}</td>
-        <td className="p-3">{order.customer}</td>
-        <td className="p-3">{order.date}</td>
-        <td className="p-3">
-          <span className="inline-block px-2 py-1 text-sm bg-yellow-200 rounded">
-            {order.status}
-          </span>
-        </td>
-        <td className="p-3 space-x-2">
-          <select className="border px-2 py-1 text-sm rounded">
-            <option>New</option>
-            <option>In Progress</option>
-            <option>Ready</option>
-          </select>
-          <button className="text-blue-500 underline text-sm">View</button>
-        </td>
-      </tr>
-    );
-  }
-  
+  return (
+    <TableRow hover>
+      <TableCell>{index}</TableCell>
+      <TableCell>{order.customer}</TableCell>
+      <TableCell>{order.date}</TableCell>
+      <TableCell>
+        <Chip label={order.status} color="warning" size="small" />
+      </TableCell>
+      <TableCell>
+        <Select
+          defaultValue="New"
+          size="small"
+          variant="outlined"
+          style={{ marginRight: "8px" }}
+        >
+          <MenuItem value="New">New</MenuItem>
+          <MenuItem value="In Progress">In Progress</MenuItem>
+          <MenuItem value="Ready">Ready</MenuItem>
+        </Select>
+        <Button variant="text" color="primary" size="small">
+          View
+        </Button>
+      </TableCell>
+    </TableRow>
+  );
+}

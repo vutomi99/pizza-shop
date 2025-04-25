@@ -11,6 +11,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { Card, CardContent, Typography, Grid } from '@mui/material';
 
 ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip, Legend);
 
@@ -53,16 +54,28 @@ export default function StatsGraphs() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div className="bg-white p-4 rounded shadow">
-        <h2 className="text-lg font-semibold mb-2">Sales Per Day (R)</h2>
-        <Line data={salesChartData} options={chartOptions} height={300} />
-      </div>
+    <Grid container spacing={3}>
+      <Grid item xs={12} md={6}>
+        <Card>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Sales Per Day (R)
+            </Typography>
+            <Line data={salesChartData} options={chartOptions} height={300} />
+          </CardContent>
+        </Card>
+      </Grid>
 
-      <div className="bg-white p-4 rounded shadow">
-        <h2 className="text-lg font-semibold mb-2">Orders Completed Per Day</h2>
-        <Line data={ordersChartData} options={chartOptions} height={300} />
-      </div>
-    </div>
+      <Grid item xs={12} md={6}>
+        <Card>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Orders Completed Per Day
+            </Typography>
+            <Line data={ordersChartData} options={chartOptions} height={300} />
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   );
 }

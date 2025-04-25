@@ -1,15 +1,19 @@
+import React from "react";
+import Chip from "@mui/material/Chip";
 
 export default function StatusBadge({ status }) {
-    const colors = {
-      "New": "bg-yellow-300",
-      "In Progress": "bg-blue-300",
-      "Ready": "bg-green-300"
-    };
-    
-    return (
-      <span className={`px-2 py-1 rounded text-xs ${colors[status]}`}>
-        {status}
-      </span>
-    );
-  }
-  
+  const colors = {
+    "New": "warning",
+    "In Progress": "info",
+    "Ready": "success"
+  };
+
+  return (
+    <Chip
+      label={status}
+      color={colors[status]}
+      size="small"
+      variant="filled"
+    />
+  );
+}
