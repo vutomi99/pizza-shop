@@ -3,17 +3,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../app/styles/Navbar.module.css";
-
-
 import HomeIcon from "@mui/icons-material/Home";
 import LocalPizzaIcon from "@mui/icons-material/LocalPizza";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import LoginIcon from "@mui/icons-material/Login";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useCart } from "@/hooks/cart";
 
 const Navbar = () => {
+  const { cartItems } = useCart();
+
   return (
     <div className={styles.container}>
-     
+      {/* Call section */}
       <div className={styles.item}>
         <div className={styles.callButton}>
           <Image src="/image/telephone.png" alt="" width={32} height={32} />
@@ -24,7 +26,7 @@ const Navbar = () => {
         </div>
       </div>
 
-     
+      {/* Menu section */}
       <div className={styles.item}>
         <ul className={styles.list}>
           <Link href="/" passHref>
@@ -41,7 +43,7 @@ const Navbar = () => {
             </li>
           </Link>
 
-          <Image src="/image/logo.png" alt="" width={160} height={69} />
+          <Image src="/image/logo.png" alt="Logo" width={160} height={69} />
 
           <Link href="/auth/login" passHref>
             <li className={styles.listItem}>
@@ -52,12 +54,14 @@ const Navbar = () => {
         </ul>
       </div>
 
-      {/* Right Section: Cart */}
+      {/* Cart section */}
       <div className={styles.item}>
-        <div className={styles.cart}>
-          <Image src="/image/cart.png" alt="" width={30} height={30} />
-          <div className={styles.counter}>2</div>
-        </div>
+        <Link href="/cart" className={styles.cart}>
+          <Image src="/image/cart.png" alt="Cart" width={30} height={30} />
+          {cartItems.length > 0 && (
+            <div className={styles.counter}>{cartItems.length}</div>
+          )}
+        </Link>
       </div>
     </div>
   );

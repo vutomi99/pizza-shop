@@ -17,6 +17,11 @@ const useLoginHook = () => {
 
         console.log("Response", res);
 
+        //storing token in local storage
+        if (res?.data?.token) {
+          localStorage.setItem("token", res.data.token);
+        }
+
         return res?.data;
       } catch (error) {
         console.error("Error during login:", error);

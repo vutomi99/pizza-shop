@@ -7,10 +7,13 @@ import { CartProvider } from "@/hooks/cart";
 
 const AppLayoutComponent = ({ children }) => {
   const client = new QueryClient({});
+
   return (
     <QueryClientProvider client={client}>
-      <Navbar />
-      <CartProvider>{children}</CartProvider>
+      <CartProvider>
+        <Navbar />
+        {children}
+      </CartProvider>
     </QueryClientProvider>
   );
 };

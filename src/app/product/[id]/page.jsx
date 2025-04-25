@@ -3,6 +3,12 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { useCart } from "@/hooks/cart";
+import { useRouter } from "next/navigation";
+
+
 import {
   Box,
   Typography,
@@ -49,20 +55,51 @@ export default function ProductDetails() {
     }
   };
 
-  const handleOrder = () => {
-    alert(
-      `Order placed: ${pizza.name} with ${selectedToppings
-        .map((t) => t.name)
-        .join(", ")}. Total: R ${totalPrice.toFixed(2)}`
-    );
-  };
+const { addToCart } = useCart();
+const router = useRouter();
+
+const handleOrder = () => {
+  addToCart(pizza, selectedToppings, totalPrice);
+  router.push("/cart");
+};
 
   if (!pizza) return <Typography>Loading pizza details...</Typography>;
   if (toppingsLoading) return <Typography>Loading toppings...</Typography>;
 
   return (
-    <Box sx={{ p: 4 }}>
-      <Card sx={{ maxWidth: 600, mx: "auto" }}>
+    <Box
+      sx={{
+        p: 4,
+        minHeight: "100vh",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* Blurry background */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: "url('/image/pizza.jpeg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "blur(8px)",
+          zIndex: 0,
+        }}
+      />
+      {/* Form container */}
+      <Card
+        sx={{
+          maxWidth: 600,
+          mx: "auto",
+          position: "relative",
+          zIndex: 1,
+          backgroundColor: "rgba(255, 255, 255, 0.9)", // Slight transparency for better readability
+        }}
+      >
         <CardMedia
           component="img"
           height="300"
@@ -110,6 +147,7 @@ export default function ProductDetails() {
             fullWidth
             sx={{ mt: 3 }}
             onClick={handleOrder}
+            startIcon={<ShoppingCartIcon />}
           >
             Add to cart
           </Button>
@@ -119,7 +157,8 @@ export default function ProductDetails() {
             color="secondary"
             fullWidth
             sx={{ mt: 2 }}
-            onClick={() => alert("Redirecting to cart...")}
+            onClick={() => router.push("/cart")}
+            endIcon={<ArrowForwardIcon />}
           >
             Go to Cart
           </Button>

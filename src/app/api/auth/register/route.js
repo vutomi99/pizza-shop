@@ -1,21 +1,31 @@
-
-
 import { NextResponse } from "next/server";
 import { prisma } from "@/instances/prisma";
+import bcrypt from "bcrypt";
 
-export async function GET(req, res) {
-  return NextResponse.json({ message: "Hello from Next.js 15!" });
-}
-
-export async function POST(req, res) {
+export async function POST(req) {
   const data = await req.json();
+  const { name, surname, email, phone, address, password } = data;
 
-  const { passwordConfirmation, ...newUserData } = data;
-
-  const newUser = await prisma.user.create({
-    data: newUserData,
+  const existingUser = await prisma.user.findUnique({
+    where: { email },
   });
 
-  console.log("Created user:", newUser); // Log the received data for debugging
-  return NextResponse.json({ user: newUser });
+  if (existingUser) {
+    return NextResponse.json({ message: "Email already exists" }, { status: 400 });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const newUser = await prisma.user.create({
+    data: {
+      name,
+      surname,
+      phone,
+      address,
+      email,
+      password: hashedPassword,
+    },
+  });
+
+  return NextResponse.json({ message: "User registered successfully", user: { ...newUser, password: undefined } });
 }

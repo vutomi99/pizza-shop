@@ -3,24 +3,30 @@
 import { apiInstance } from "@/instances";
 import { useMutation } from "@tanstack/react-query";
 
-//Create Order
-const useCreateOrderHook = () => {
+
+export const useCreateOrderHook = () => {
   const mutation = useMutation({
     mutationFn: async (orderData = {}) => {
-      console.log("Order", orderData);
+      console.log("Creating Order with Data:", orderData);
+
+      const { userId, items, total, address } = orderData;
+
+      if (!userId || !Array.isArray(items) || !items.length || !total || !address) {
+        console.error("Validation Failed: Missing or invalid order fields:", {
+          userId,
+          items,
+          total,
+          address,
+        });
+        throw new Error("Invalid order data. Please provide all required fields.");
+      }
 
       try {
-        const res = await apiInstance({
-          method: "POST",
-          url: "/orders",
-          data: orderData,
-        });
-
-        console.log("Response", res);
-
-        return res?.data;
+        const res = await apiInstance.post("/orders", orderData);
+        console.log("Create Order Response:", res);
+        return res.data;
       } catch (error) {
-        console.error("Error Creating Order:", error);
+        console.error("Error Creating Order:", error?.response?.data || error.message);
         throw error;
       }
     },
@@ -29,29 +35,24 @@ const useCreateOrderHook = () => {
   return mutation;
 };
 
-//view Order
-const useViewOrderHook = () => {
-    const mutation = useMutation({
-        mutationFn: async (orderId) => {
-            console.log("Order ID", orderId);
 
-            try {
-                const res = await apiInstance({
-                    method: "GET",
-                    url: `/orders/${orderId}`,
-                });
+export const useViewOrderHook = () => {
+  return useMutation({
+    mutationFn: async (orderId) => {
+      console.log("Fetching Order ID:", orderId);
 
-                console.log("Response", res);
+      if (!orderId) {
+        throw new Error("Order ID is required.");
+      }
 
-                return res?.data;
-            } catch (error) {
-                console.error("Error Viewing Order:", error);
-                throw error;
-            }
-        },
-    });
-
-    return mutation;
+      try {
+        const res = await apiInstance.get(`/orders/${orderId}`);
+        console.log("View Order Response:", res);
+        return res.data;
+      } catch (error) {
+        console.error("Error Viewing Order:", error?.response?.data || error.message);
+        throw error;
+      }
+    },
+  });
 };
-
-export  {useCreateOrderHook, useViewOrderHook};    

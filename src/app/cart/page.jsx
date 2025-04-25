@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/hooks/cart";
-import { useCreateOrderHook } from "@/hooks/order";
+import { useCreateOrderHook } from "../../hooks/order";
 import {
   Box,
   Card,
@@ -13,18 +14,43 @@ import {
   List,
   ListItem,
   ListItemText,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
 
+const isAuthenticated = () => {
+  if (typeof window === "undefined") return false;
+  return !!localStorage.getItem("token");
+};
+
 export default function CartPage() {
-  const { cartItems, removeFromCart, cartTotal, clearCart } = useCart();
-  const { mutate: createOrder, isLoading } = useCreateOrderHook();
   const router = useRouter();
+  const {
+    cartItems,
+    removeFromCart,
+    cartTotal,
+    clearCart,
+    increaseQuantity,
+    decreaseQuantity,
+  } = useCart();
+
+  const { mutate: createOrder, isLoading } = useCreateOrderHook();
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
 
   const handleCheckout = () => {
+    if (!isAuthenticated()) {
+      setShowLoginDialog(true);
+      return;
+    }
+
     const orderPayload = {
       items: cartItems.map((item) => ({
         pizzaId: item.pizza.id,
         toppingIds: item.toppings.map((t) => t.id),
+        quantity: item.quantity,
       })),
       totalPrice: cartTotal,
     };
@@ -45,6 +71,11 @@ export default function CartPage() {
     router.push("/");
   };
 
+  const handleLoginRedirect = () => {
+    setShowLoginDialog(false);
+    router.push("/auth/login");
+  };
+
   return (
     <Box sx={{ p: 4 }}>
       <Typography variant="h4" gutterBottom>
@@ -61,15 +92,38 @@ export default function CartPage() {
                 <Box key={item.id}>
                   <ListItem alignItems="flex-start">
                     <ListItemText
-                      primary={item.pizza.name}
+                      primary={
+                        <>
+                          <Typography fontWeight="bold">{item.pizza.name}</Typography>
+                          <Box display="flex" alignItems="center" gap={1} mt={1}>
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              onClick={() => decreaseQuantity(item.id)}
+                            >
+                              –
+                            </Button>
+                            <Typography>{item.quantity}</Typography>
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              onClick={() => increaseQuantity(item.id)}
+                            >
+                              +
+                            </Button>
+                          </Box>
+                        </>
+                      }
                       secondary={
                         <>
-                          Base: R {item.pizza.price.toFixed(2)}<br />
+                          Base: R {item.pizza?.price?.toFixed(2) || "0.00"}
+                          <br />
                           Toppings:{" "}
-                          {item.toppings.length
+                          {item.toppings?.length
                             ? item.toppings.map((t) => t.name).join(", ")
-                            : "None"}<br />
-                          Total: R {item.totalPrice.toFixed(2)}
+                            : "None"}
+                          <br />
+                          Item Total: R {item.totalPrice?.toFixed(2) || "0.00"}
                         </>
                       }
                     />
@@ -101,7 +155,7 @@ export default function CartPage() {
               variant="outlined"
               color="primary"
               fullWidth
-              onClick={() => router.push("/")}
+              onClick={handleContinueShopping}
               sx={{ mt: 2 }}
             >
               Continue Shopping
@@ -109,6 +163,23 @@ export default function CartPage() {
           </CardContent>
         </Card>
       )}
+
+      <Dialog open={showLoginDialog} onClose={() => setShowLoginDialog(false)}>
+        <DialogTitle>Login Required</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            You need to be logged in to place an order. Please log in to continue.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShowLoginDialog(false)} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleLoginRedirect} color="primary" variant="contained">
+            Go to Login
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
