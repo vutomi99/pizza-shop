@@ -1,16 +1,16 @@
 'use client';
+
 import { Box } from '@mui/material';
-import OrderTable from '@/components/admin/OrderTable';
-import CreatePizzaForm from '@/components/admin/CreatePizzaForm';
-import CreateToppingForm from '@/components/admin/CreateToppingForm';
 import SideBar from '@/components/admin/SideBar';
 
 const drawerWidth = 240;
 
+const navbarHeight = 64;
+
+
 export default function AdminDashboardPage() {
   return (
     <Box sx={{ display: 'flex' }}>
-     
       <SideBar />
 
       <Box
@@ -21,7 +21,8 @@ export default function AdminDashboardPage() {
           color: 'white',
           p: 8,
           minHeight: '100vh',
-          ml: `${drawerWidth}px`, 
+          ml: `${drawerWidth}px`,
+          mt: `${navbarHeight}px`,
         }}
       >
         <Box sx={{ maxWidth: '960px', margin: '0 auto' }}>
@@ -37,10 +38,7 @@ export default function AdminDashboardPage() {
             Admin Dashboard
           </h1>
 
-          {/* Add your content components here */}
-          {/* <OrderTable /> */}
-          {/* <CreatePizzaForm /> */}
-          {/* <CreateToppingForm /> */}
+        
         </Box>
       </Box>
     </Box>
