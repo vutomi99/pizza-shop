@@ -6,7 +6,7 @@ export async function GET() {
   return NextResponse.json(pizzas);
 }
 
-export async function POST(req, res) {
+export async function POST(req) {
   const body = await req.json();
 
   const { name, description, price, image } = body;
@@ -25,6 +25,4 @@ export async function POST(req, res) {
     console.log("Error", error);
     return NextResponse.json({ error: error }, { status: 500 });
   }
-
-  return NextResponse.json(newPizza);
 }
